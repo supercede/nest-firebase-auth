@@ -1,41 +1,24 @@
-import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { Strategy, ExtractJwt } from 'passport-firebase-jwt';
-import * as firebaseConfig from './firebase.config.json';
-import * as firebase from 'firebase-admin';
+// src/firebase/firebase-auth.strategy.ts
 
-const firebase_params = {
-  type: firebaseConfig.type,
-  projectId: firebaseConfig.project_id,
-  privateKeyId: firebaseConfig.private_key_id,
-  privateKey: firebaseConfig.private_key,
-  clientEmail: firebaseConfig.client_email,
-  clientId: firebaseConfig.client_id,
-  authUri: firebaseConfig.auth_uri,
-  tokenUri: firebaseConfig.token_uri,
-  authProviderX509CertUrl: firebaseConfig.auth_provider_x509_cert_url,
-  clientC509CertUrl: firebaseConfig.client_x509_cert_url,
-};
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
+import { ExtractJwt, Strategy } from 'passport-firebase-jwt';
+import firebaseApp from './firebase.service'; // Import the initialized Firebase app
 
 @Injectable()
 export class FirebaseAuthStrategy extends PassportStrategy(
   Strategy,
   'firebase-auth',
 ) {
-  private defaultApp: any;
-
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
-    this.defaultApp = firebase.initializeApp({
-      credential: firebase.credential.cert(firebase_params),
-      // databaseURL: '',
-    });
   }
 
   async validate(token: string) {
-    const firebaseUser: any = await this.defaultApp
+    console.log(token);
+    const firebaseUser: any = await firebaseApp
       .auth()
       .verifyIdToken(token, true)
       .catch((err) => {
@@ -45,7 +28,7 @@ export class FirebaseAuthStrategy extends PassportStrategy(
       });
 
     if (!firebaseUser) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Invalid token');
     }
 
     return firebaseUser;

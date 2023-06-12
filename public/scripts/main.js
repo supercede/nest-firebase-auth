@@ -1,13 +1,14 @@
 const quotes = document.getElementById('quotes');
 const error = document.getElementById('error');
 
-var firebaseConfig = {
-  apiKey: 'AIzaSyB7oEYDje93lJI5bA1VKNPX9NVqqcubP1Q',
-  authDomain: 'fir-auth-dcb9f.firebaseapp.com',
-  projectId: 'fir-auth-dcb9f',
-  storageBucket: 'fir-auth-dcb9f.appspot.com',
-  messagingSenderId: '793102669717',
-  appId: '1:793102669717:web:ff4c646e5b2242f518c89c',
+const firebaseConfig = {
+  apiKey: "AIzaSyBe-GwxFabt6nqCd-wG-b0ZhddmSBpy-KM",
+  authDomain: "elevate-team-app.firebaseapp.com",
+  projectId: "elevate-team-app",
+  storageBucket: "elevate-team-app.appspot.com",
+  messagingSenderId: "853385050770",
+  appId: "1:853385050770:web:267ca0972d173e1acf844b",
+  measurementId: "G-JS7V30VSBJ"
 };
 
 // Initialize Firebase

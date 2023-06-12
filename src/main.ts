@@ -15,7 +15,7 @@ async function bootstrap() {
   app.setViewEngine('hbs');
   app.set('view options', { layout: 'main' });
 
-  await app.listen(3000);
-  logger.log('Application started on port 3000');
+  await app.listen(5005);
+  logger.log('Application started on port 5005');
 }
 bootstrap();
